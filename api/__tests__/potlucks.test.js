@@ -24,22 +24,47 @@ describe('server.js', () => {
 })
 
 describe("[POST] /api/potlucks/:user_id", () => {
+    const validInput = { 
+        potluck_name: "name", 
+        date: "date", 
+        time: "time", 
+        location: "loaction", 
+    }
     test("sends a 201 and potluck", async () => {
-        const input = { 
-            potluck_name: "name", 
-            date: "date", 
-            time: "time", 
-            location: "loaction", 
-        }
         const res = await request(server)
             .post("/api/potlucks/1")
             .set("Authorization", "insert token here")
-            .send(input)
+            .send(validInput)
         expect(res.status).toBe(201)
         expect(res.body).toMatchObject({ 
-            ...input, 
+            ...validInput, 
             potluck_id: 2,
             user_id: 1
         })
+    })
+    test("bounces when token not added", async () => {
+        const res = await request(server)
+            .post("/api/potlucks/1")
+            .send(validInput)
+        expect(res.status).toBe(401)
+        expect(res.body.message.includes("token required"))
+    })
+    test("bounces when token is invalid", async () => {
+        const res = await request(server)
+            .post("/api/potlucks/1")
+            .set("Authorization", "invalid token")
+            .send(validInput)
+        expect(res.status).toBe(401)
+        expect(res.body.message.includes("token invalid"))
+    })
+    test("bounces when input are missing", async () => {
+        const res = await request(server)
+            .post("/api/potlucks/1")
+            .set("Authorization", "insert token here")
+            .send({})
+        expect(res.status).toBe(400)
+        expect(res.body.message.includes(
+            "name, date, time, and location are required"
+        ))
     })
 })
