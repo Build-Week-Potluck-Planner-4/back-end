@@ -6,7 +6,12 @@ exports.seed = function(knex) {
         {
           user_id: 1, 
           username: 'seed_username', 
-          password: 'replace with token later'
+          password: 'seed_password' // repalce with token later
+        },
+        {
+          user_id: 2, 
+          username: 'guest_username', 
+          password: 'seed_password' // repalce with token later
         },
       ]);
     });
