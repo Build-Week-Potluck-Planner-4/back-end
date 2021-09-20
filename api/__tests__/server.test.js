@@ -57,7 +57,7 @@ describe("[POST] /api/users/login", () => {
       .post("/api/users/login")
       .send({
         username: "seed_username",
-        password: "seed_password"
+        password: "seed_password" // replace with token from register endpoint
       }) 
       expect(res.status).toBe(200)
       expect(res.body).toHaveProperty("token")
