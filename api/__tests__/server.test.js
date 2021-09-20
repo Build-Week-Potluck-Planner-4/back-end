@@ -42,6 +42,15 @@ describe("[POST] /api/users/register", () => {
     expect(res.status).toBe(400)
     expect(res.body.message.includes("username and password required"))
   })
+  test("bounces usernames that exist", async () => {
+    const res = await request(server).post()
+      .send({ 
+        username: "seed_username",
+        password: "password",
+      })
+    expect(res.status).toBe(400)
+    expect(res.body.message.includes("username already exists"))
+  })
 })
 
 describe("[POST] /api/users/login", () => {
