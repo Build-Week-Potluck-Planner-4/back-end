@@ -27,17 +27,15 @@ describe("[POST] /api/users/register", () => {
   test("responds with a 201 and new user", async () => {
     const input = {
       username: "username",
-      password: "password", // add hashed version later
+      password: "password",
     }
-    const res = await request(server)
-      .post("/api/users/register")
+    const res = await request(server).post("/api/users/register")
       .send(input)
     expect(res.status).toBe(201)
     expect(res.body).toMatchObject({ ...input, user_id: 1 })
   })
   test("bounces requests with no username or password", async () => {
-    const res = await request(server)
-      .post("/api/users/register")
+    const res = await request(server).post("/api/users/register")
       .send({})
     expect(res.status).toBe(400)
     expect(res.body.message.includes("username and password required"))
