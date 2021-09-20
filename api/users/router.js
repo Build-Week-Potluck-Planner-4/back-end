@@ -1,11 +1,12 @@
 const router = require("express").Router()
+const { checkUsernameExists, checkUsernameUnique } = require("./middleware")
 
-router.post("/register", (req, res, next) => {
+router.post("/register", checkUsernameUnique, (req, res, next) => {
     // add user
     res.end()
 })
 
-router.post("/login", (req, res, next) => {
+router.post("/login", checkUsernameExists, (req, res, next) => {
     // login user
     res.end()
 })

@@ -3,6 +3,10 @@ const checkToken = (req, res, next) => {
     next()
 }
 
+const checkTokenId = (req, res, next) => {
+    next()
+}
+
 const checkUsernameExists = (req, res, next) => {
     next()
 }
