@@ -3,6 +3,7 @@ const { verifyPotluckPayload, checkPotluckExists } = require("./middleware")
 
 router.post("/", verifyPotluckPayload, (req, res, next) => {
     // to add potlucks
+    // be sure to add user_id from params
     res.end()
 })
 
