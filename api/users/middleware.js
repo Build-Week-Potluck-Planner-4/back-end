@@ -26,7 +26,6 @@ const checkUsernameExists = async (req, res, next) => {
 };
 
 const checkUsernameUnique = async (req, res, next) => {
-
     try {
         const { username } = req.body;
         const exist = await User.getBy({ username });
