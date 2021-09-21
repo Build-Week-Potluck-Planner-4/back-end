@@ -1,7 +1,8 @@
-const router = require("express").Router()
-const User = require('./modal')
-const bcrypt = require('bcrypt')
-const { checkUsernameExists, checkUsernameUnique } = require("./middleware")
+const router = require("express").Router();
+const User = require('./modal');
+const bcrypt = require('bcrypt');
+const { tokenBuilder } = require('../tokenBuilder');
+const { checkUsernameExists, checkUsernameUnique } = require("./middleware");
 
 router.post("/register", checkUsernameUnique, async (req, res, next) => {
     try {
@@ -13,11 +14,29 @@ router.post("/register", checkUsernameUnique, async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-})
+});
 
-router.post("/login", checkUsernameExists, (req, res, next) => {
-    // login user
-    res.end()
-})
+router.post("/login", checkUsernameExists, async (req, res, next) => {
+    try {
+        const { username, password } = req.body;
+        const [existingUser] = await User.getBy({ username });
 
-module.exports = router
+        if (existingUser && bcrypt.compareSync(password, existingUser.password)) {
+            const token = tokenBuilder(existingUser);
+            res.status(200).json({
+                message: `${existingUser.username} is back!`,
+                token
+            });
+        } else {
+            next({
+                message: 'Invalid Credentials',
+                status: 401
+            });
+        }
+
+    } catch (err) {
+        next(err);
+    }
+});
+
+module.exports = router;
