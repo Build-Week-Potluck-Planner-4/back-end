@@ -26,7 +26,14 @@ const addFood = (potluck_id, food) => {
         })
         .then(food_id => {
             db("potluck_foods")
-                .insert({ potluck_id, food_id })
-
+                .insert(
+                    { potluck_id, food_id }, 
+                    ["potluck_food_id"]
+                )
+                .then(([food]) => food.potluck_food_id)
         })
+}
+
+module.exports = {
+    addFood
 }
