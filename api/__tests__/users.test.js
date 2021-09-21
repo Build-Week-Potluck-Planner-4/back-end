@@ -26,13 +26,13 @@ describe('server.js', () => {
 describe("[POST] /api/users/register", () => {
   test("responds with a 201 and new user", async () => {
     const input = {
-      username: "username",
-      password: "password",
+      username: "abcd",
+      password: "1234",
     }
     const res = await request(server).post("/api/users/register")
       .send(input)
     expect(res.status).toBe(201)
-    expect(res.body).toMatchObject({ ...input, user_id: 1 })
+    expect(res.body).toMatchObject({ ...input, user_id: 2 })
   })
   test("bounces requests with no username or password", async () => {
     const res = await request(server).post("/api/users/register")
@@ -46,7 +46,7 @@ describe("[POST] /api/users/register", () => {
         username: "seed_username",
         password: "password",
       })
-    expect(res.status).toBe(400)
+    expect(res.status).toBe(422)
     expect(res.body.message.includes("username already exists"))
   })
 })

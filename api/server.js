@@ -11,8 +11,8 @@ const server = express()
 server.use(express.json())
 server.use(helmet())
 server.use(cors())
-
-server.use("/api/users", checkUserPayload, userEndpoints)
+// checkUserPayload,
+server.use("/api/users",  userEndpoints)
 server.use("/api/potlucks/:user_id", checkToken, restricted, potlucksEndpoints)
 
 server.use((err, req, res, next) => {

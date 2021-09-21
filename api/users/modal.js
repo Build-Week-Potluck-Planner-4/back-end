@@ -1,6 +1,6 @@
 const db = require("../data/db-config")
 
-const userDb = () => db("users") 
+const userDb = db("users")
 
 const getBy = filter => {
     return userDb
@@ -12,10 +12,9 @@ const getById = user_id => {
         .first()
 }
 
-const addUser = user => {
-    return userDb
-        .insert(user)
-        .then(([id]) => getById(id))
+const addUser =async user => {
+    const [user_id] = await db('users').insert(user, 'user_id');
+    return getById(user_id);
 } 
 
 module.exports = {

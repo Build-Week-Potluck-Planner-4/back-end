@@ -7,7 +7,7 @@ exports.seed = function(knex) {
       return knex('foods').insert([
         {
           food_id: 1, 
-          name: 'spaghetti'
+          food_name: 'spaghetti'
         },
       ]);
     });
