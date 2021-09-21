@@ -1,5 +1,9 @@
 const db = require("../data/db-config")
 
+const getAll = () => {
+    return db("potlucks")
+}
+    
 const getById = potluck_id => {
     return db("potlucks")
         .where({ potluck_id })
@@ -21,5 +25,6 @@ const update = id => {
 
 module.exports = {
     getById,
-    addPotluck
+    addPotluck,
+    getAll
 }
