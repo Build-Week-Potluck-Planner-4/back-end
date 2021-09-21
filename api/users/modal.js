@@ -17,6 +17,7 @@ const addUser = async user => {
     return newUser;
 };
 
+
 module.exports = {
     getBy,
     addUser
