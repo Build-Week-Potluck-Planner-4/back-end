@@ -1,4 +1,5 @@
 const yup =  require('yup')
+const { getById } = require("./modal")
 
 const potluckSchema = yup.object().shape({
     potluck_name: yup
@@ -28,7 +29,15 @@ const verifyPotluckPayload = (req, res, next) => {
         }).catch(next)
 }
 const checkPotluckExists = (req, res, next) => {
-    next()
+    const { potluck_id } = req.params
+    getById(potluck_id).then(potluck => {
+        if (potluck) {
+            req.potluck = potluck
+            next()
+        } else {
+            next({ status: 404, message: "invalid id" })
+        }
+    }).catch(next)
 }
 
 module.exports = {
