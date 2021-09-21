@@ -1,0 +1,32 @@
+const db = require("../data/db-config")
+
+
+const findBy = filter => {
+    return db("foods").where(filter)    
+}
+
+const checkFoodExists = food_name => {
+    return findBy({ food_name })
+        .first()
+}
+
+const addFood = (potluck_id, food) => {
+    checkFoodExists(food)
+        .then(exists => {
+            if (exists) {
+                return food.food_id
+            } else {
+                return db("foods")
+                    .insert(
+                        { food_name: food },
+                        ["food_id"]
+                    )
+                    .then(([food]) => food.food_id)
+            }
+        })
+        .then(food_id => {
+            db("potluck_foods")
+                .insert({ potluck_id, food_id })
+
+        })
+}
