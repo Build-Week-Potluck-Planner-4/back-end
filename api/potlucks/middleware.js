@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+const yup =  require('yup')
 
 const potluckSchema = yup.object().shape({
     potluck_name: yup
@@ -21,8 +21,9 @@ const potluckSchema = yup.object().shape({
 })
 
 const verifyPotluckPayload = (req, res, next) => {
-    yup.isValid(req.body)
+    potluckSchema.isValid(req.body)
         .then(() => {
+            req.potluck = req.body
             next()
         }).catch(next)
 }

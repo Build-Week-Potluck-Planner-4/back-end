@@ -2,7 +2,7 @@ const express = require('express')
 const helmet = require('helmet')
 const cors = require('cors')
 const { checkUserPayload, checkToken } = require("./users/middleware")
-const restricted = require('./restricted')
+
 
 const userEndpoints = require("./users/router")
 const potlucksEndpoints = require("./potlucks/router")
