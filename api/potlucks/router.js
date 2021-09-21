@@ -1,5 +1,12 @@
 const router = require("express").Router()
 const { verifyPotluckPayload, checkPotluckExists } = require("./middleware")
+const { getAll } = require("./modal")
+
+router.get("/", (req, res, next) => {
+    getAll().then(potlucks => 
+        res.status(200).json(potlucks)
+    ).catch(next)
+})
 
 router.post("/", verifyPotluckPayload, (req, res, next) => {
     // to add potlucks
