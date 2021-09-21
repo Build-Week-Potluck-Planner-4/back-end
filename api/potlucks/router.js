@@ -1,7 +1,7 @@
 
 const router = require("express").Router()
 const { verifyPotluckPayload, checkPotluckExists } = require("./middleware")
-const { getAll, addPotluck } = require("./modal")
+const { getAll, addPotluck, remove } = require("./modal")
 
 router.get("/", (req, res, next) => {
     getAll().then(potlucks => 
@@ -14,17 +14,21 @@ router.post("/", verifyPotluckPayload, (req, res, next) => {
     addPotluck({
         ...potluck, 
         user_id: token.subject 
-    }).then(potluck => 
+    }).then(([potluck]) => 
         res.status(201).json(potluck)
     ).catch(next)
 })
 
-router.put("/:potluck_id", verifyPotluckPayload, checkPotluckExists, (req, res, next) => {
-    res.end()
-})
+// stretch
+// router.put("/:potluck_id", verifyPotluckPayload, checkPotluckExists, (req, res, next) => {
+//     res.end()
+// })
 
 router.delete("/:potluck_id", checkPotluckExists, (req, res, next) => {
-    res.end()
+    const { potluck_id } = req.params
+    remove(potluck_id).then(() => 
+        res.status(200).json(req.potluck)
+    ).catch(next)
 })
 
 module.exports = router

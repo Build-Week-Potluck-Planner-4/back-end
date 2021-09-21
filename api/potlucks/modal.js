@@ -1,5 +1,7 @@
 const db = require("../data/db-config")
 
+const potluckKeys = ["potluck_name", "date", "time", "location", "potluck_id", "user_id"]
+
 const getAll = () => {
     return db("potlucks")
 }
@@ -12,11 +14,11 @@ const getById = potluck_id => {
 
 const addPotluck = potluck => {
     return db("potlucks")
-        .insert(([id]) => getById(id))
+        .insert(potluck, potluckKeys)
 }
 
 const remove = id => {
-    return null
+    return getById(id).del()
 }
 
 const update = id => {
@@ -26,5 +28,6 @@ const update = id => {
 module.exports = {
     getById,
     addPotluck,
-    getAll
+    getAll,
+    remove
 }
