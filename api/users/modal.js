@@ -1,5 +1,7 @@
 const db = require("../data/db-config");
 
+const getAll = () => db("users").select("username")
+
 const getBy = filter => {
     return db('users')
         .where(filter);
@@ -18,5 +20,6 @@ const addUser = async user => {
 
 module.exports = {
     getBy,
-    addUser
+    addUser,
+    getAll
 };
