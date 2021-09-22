@@ -10,3 +10,5 @@ router.put("/:guest_id", guestExists, (req, res, next) => {
         res.status(200).json(guest)
     ).catch(next)
 })
+
+module.exports = router
