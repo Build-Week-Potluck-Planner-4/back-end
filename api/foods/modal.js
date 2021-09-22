@@ -14,7 +14,7 @@ const addFood = (potluck_id, food) => {
     checkFoodExists(food)
         .then(exists => {
             if (exists) {
-                return food.food_id
+                return exists.food_id
             } else {
                 return db("foods")
                     .insert(
@@ -25,7 +25,7 @@ const addFood = (potluck_id, food) => {
             }
         })
         .then(food_id => {
-            db("potluck_foods")
+            return db("potluck_foods")
                 .insert(
                     { potluck_id, food_id }, 
                     ["potluck_food_id"]

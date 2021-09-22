@@ -25,8 +25,8 @@ router.post("/", verifyPotluckPayload, (req, res, next) => {
     addPotluck(potluck)
         .then(([newPotluck]) => {
             const { potluck_id } = newPotluck
-            foods.forEach(async f => await addFood(potluck_id, f))
-            guests.forEach(async g => await addGuest(potluck_id, g))
+            foods?.forEach(async f => await addFood(potluck_id, f))
+            guests?.forEach(async g => await addGuest(potluck_id, g))
             res.status(201).json(newPotluck)
         }).catch(next)
 })
