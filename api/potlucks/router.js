@@ -1,11 +1,18 @@
 
 const router = require("express").Router()
 const { verifyPotluckPayload, checkPotluckExists } = require("./middleware")
-const { getAll, addPotluck, remove } = require("./modal")
+const { getAll, addPotluck, remove, getPotluck } = require("./modal")
 
 router.get("/", (req, res, next) => {
     getAll().then(potlucks => 
         res.status(200).json(potlucks)
+    ).catch(next)
+})
+
+router.get("/:potluck_id", (req, res, next) => {
+    const { potluck_id } = req.params
+    getPotluck(potluck_id).then(potluck => 
+        res.status(200).json(potluck)
     ).catch(next)
 })
 
