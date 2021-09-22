@@ -7,18 +7,18 @@ const getAll = () => {
 }
 
 const getPotluck = async potluck_id => {
-    const res = await db("potlucks_foods as pf")
+    const res = await db("potluck_foods as pf")
         .leftJoin("foods as f", "f.food_id", "pf.food_id")
         .leftJoin("potlucks as p", "p.potluck_id", "pf.potluck_id")
-        .select("p.*, f.food_name")
+        .select("p.*", "f.food_name")
         .where("p.potluck_id", potluck_id)
 
     const guests = await db("guests as g")
         .leftJoin("users as u", "u.user_id", "g.user_id")
-        .leftJoin("potluck_foods as pf", "pf.guest_id", "g.guest_id")
+        .leftJoin("potluck_foods as pf", "pf.potluck_food_id", "g.potluck_food_id")
         .leftJoin("foods as f", "f.food_id", "pf.food_id")
         .select("u.username", "f.food_name", "g.accepted")
-        .where("p.potluck_id", potluck_id)
+        .where("pf.potluck_id", potluck_id)
     
     return {
         potluck_id: res[0].potluck_id,
