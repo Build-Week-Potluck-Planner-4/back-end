@@ -6,5 +6,10 @@ exports.seed = function(knex) {
           username: 'ash',
           password: '1234'
         },
+        {
+          user_id: 2, 
+          username: 'guest',
+          password: '1234'
+        },
       ]);
 };
