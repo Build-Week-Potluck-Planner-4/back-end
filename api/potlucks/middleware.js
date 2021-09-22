@@ -24,14 +24,6 @@ const potluckSchema = yup.object().shape({
 const verifyPotluckPayload = (req, res, next) => {
     potluckSchema.isValid(req.body)
         .then(() => {
-            req.potluck = req.body
-            next()
-        }).catch(next)
-}
-const checkPotluckExists = (req, res, next) => {
-    const { potluck_id } = req.params
-    getById(potluck_id).then(potluck => {
-        if (potluck) {
             const { 
                 potluck_name, 
                 location, 
@@ -39,7 +31,7 @@ const checkPotluckExists = (req, res, next) => {
                 date, 
                 guests, 
                 foods 
-            } = potluck
+            } = req.body
             req.potluck = { 
                 potluck_name,
                 location,
@@ -49,6 +41,14 @@ const checkPotluckExists = (req, res, next) => {
             }
             req.foods = foods
             req.guests = guests
+            next()
+        }).catch(next)
+}
+const checkPotluckExists = (req, res, next) => {
+    const { potluck_id } = req.params
+    getById(potluck_id).then(potluck => {
+        if (potluck) {
+            req.potluck = potluck
             next()
         } else {
             next({ status: 404, message: "invalid id" })

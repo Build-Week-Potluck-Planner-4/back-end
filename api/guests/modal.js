@@ -1,12 +1,17 @@
 const db = require("../data/db-config")
 
-const addGuest = (potluck_id, user_id) => {
-    return db("guests")
-        .insert({ 
-            potluck_id, 
-            user_id, 
-        })
+const addGuest = (potluck_id, username) => {
+    return db("users")
+        .where({ username }, ["user_id"])
+        .first()
+        .then(({ user_id }) => 
+            db("guests").insert({ 
+                potluck_id, 
+                user_id, 
+            })
+        )
 }
+
 
 const getById = guest_id => {
     return db("guests")
