@@ -2,6 +2,8 @@
 const router = require("express").Router()
 const { verifyPotluckPayload, checkPotluckExists } = require("./middleware")
 const { getAll, addPotluck, remove, getPotluck } = require("./modal")
+const { addGuests } = require("../guests/modal")
+const { addFood } = require("../foods/modal")
 
 router.get("/", (req, res, next) => {
     getAll().then(potlucks => 
@@ -17,13 +19,21 @@ router.get("/:potluck_id", (req, res, next) => {
 })
 
 router.post("/", verifyPotluckPayload, (req, res, next) => {
-    const { potluck, token } = req
+    const { potluck, guests, foods } = req
+
     addPotluck({
-        ...potluck, 
-        user_id: token.subject 
-    }).then(([potluck]) => 
+        ...potluck
+    }).then(([potluck]) => {
+        const { potluck_id } = potluck
+        foods.forEach(async f => 
+            await addFood(potluck_id, f)
+        )
+        guests.forEach(async g => 
+            await addGuest(potluck_id, g)
+        )
         res.status(201).json(potluck)
-    ).catch(next)
+    }).catch(next)
+
 })
 
 // stretch

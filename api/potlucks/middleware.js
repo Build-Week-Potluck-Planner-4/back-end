@@ -32,7 +32,23 @@ const checkPotluckExists = (req, res, next) => {
     const { potluck_id } = req.params
     getById(potluck_id).then(potluck => {
         if (potluck) {
-            req.potluck = potluck
+            const { 
+                potluck_name, 
+                location, 
+                time, 
+                date, 
+                guests, 
+                foods 
+            } = potluck
+            req.potluck = { 
+                potluck_name,
+                location,
+                time,
+                date,
+                user_id: req.token.subject
+            }
+            req.foods = foods
+            req.guests = guests
             next()
         } else {
             next({ status: 404, message: "invalid id" })

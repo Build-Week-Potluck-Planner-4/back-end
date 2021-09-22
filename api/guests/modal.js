@@ -1,11 +1,10 @@
 const db = require("../data/db-config")
 
-const addGuests = (potluck_id, user_id, potluck_food_id) => {
+const addGuest = (potluck_id, user_id) => {
     return db("guests")
         .insert({ 
             potluck_id, 
             user_id, 
-            potluck_food_id 
         })
 }
 
@@ -22,7 +21,7 @@ const guestGoing = (guest_id, going) => {
 }
 
 module.exports = {
-    addGuests,
+    addGuest,
     guestGoing,
     getById
 }
