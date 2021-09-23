@@ -8,7 +8,7 @@ const guestExists = (req, res, next) => {
         } else {
             next({ status: 404, message: "guest does not exist" })
         }
-    })
+    }).catch(next)
 }
 module.exports = {
     guestExists
