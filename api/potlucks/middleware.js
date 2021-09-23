@@ -24,7 +24,23 @@ const potluckSchema = yup.object().shape({
 const verifyPotluckPayload = (req, res, next) => {
     potluckSchema.isValid(req.body)
         .then(() => {
-            req.potluck = req.body
+            const { 
+                potluck_name, 
+                location, 
+                time, 
+                date, 
+                guests, 
+                foods 
+            } = req.body
+            req.potluck = { 
+                potluck_name,
+                location,
+                time,
+                date,
+                user_id: req.token.subject
+            }
+            req.foods = foods
+            req.guests = guests
             next()
         }).catch(next)
 }

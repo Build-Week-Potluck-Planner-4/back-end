@@ -43,7 +43,6 @@ exports.up = async (knex) => {
         .references("potluck_id")
         .inTable("potlucks")
       guests.integer("potluck_food_id")
-        .notNullable()
         .unsigned()
         .references("potluck_food_id")
         .inTable("potluck_foods")

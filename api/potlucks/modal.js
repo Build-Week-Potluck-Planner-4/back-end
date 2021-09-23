@@ -9,7 +9,7 @@ const getAll = () => {
 const getPotluck = async potluck_id => {
     const res = await db("potluck_foods as pf")
         .leftJoin("foods as f", "f.food_id", "pf.food_id")
-        .leftJoin("potlucks as p", "p.potluck_id", "pf.potluck_id")
+        .rightJoin("potlucks as p", "p.potluck_id", "pf.potluck_id")
         .select("p.*", "f.food_name")
         .where("p.potluck_id", potluck_id)
 
@@ -17,20 +17,24 @@ const getPotluck = async potluck_id => {
         .leftJoin("users as u", "u.user_id", "g.user_id")
         .leftJoin("potluck_foods as pf", "pf.potluck_food_id", "g.potluck_food_id")
         .leftJoin("foods as f", "f.food_id", "pf.food_id")
-        .select("u.username", "f.food_name", "g.accepted", "g.guest_id")
-        .where("pf.potluck_id", potluck_id)
-    
-    return {
-        potluck_id: res[0].potluck_id,
-        potluck_name: res[0].potluck_name,
-        date: res[0].date,
-        time: res[0].time,
-        location: res[0].location,
-        foods: res.map(p => p.food_name),
-        guests: guests.map(g => ({ 
-            ...g, 
-            accepted: g.accepted ? true : false 
-        }))
+        .select("u.username", "f.food_name", "g.accepted")
+        .where("g.potluck_id", potluck_id)
+
+    if (res[0]) {
+        return {
+            potluck_id: res[0].potluck_id,
+            potluck_name: res[0].potluck_name,
+            date: res[0].date,
+            time: res[0].time,
+            location: res[0].location,
+            foods: res.map(p => p.food_name),
+            guests: guests.map(g => ({ 
+                ...g, 
+                accepted: g.accepted ? true : false 
+            }))
+        } 
+    } else {
+        return "no such potluck"
     }
 }
 
