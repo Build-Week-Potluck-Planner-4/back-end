@@ -1,5 +1,6 @@
 const db = require("../data/db-config")
 
+const getAll = () => db("foods")
 
 const findBy = filter => {
     return db("foods").where(filter)    
@@ -35,5 +36,6 @@ const addFood = (potluck_id, food) => {
 }
 
 module.exports = {
-    addFood
+    addFood,
+    getAll
 }
