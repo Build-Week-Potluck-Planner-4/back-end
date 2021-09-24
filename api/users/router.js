@@ -7,7 +7,7 @@ const { checkUsernameExists, checkUsernameUnique } = require("./middleware");
 router.get("/:search", (req, res, next) => {
     const { search } = req.params
     User.getAll().then(users => {
-        const usernames = users.map(u => u.username)
+        const usernames = users.map(({ username }) => username)
         const searched = usernames.filter(u => 
             u.toLowerCase().includes(search.toLowerCase())
         )
