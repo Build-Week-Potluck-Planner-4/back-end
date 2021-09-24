@@ -10,5 +10,4 @@
 
 # [Get] /api/potlucks/:potluck_id (returns potluck details)
 
-# [Put] /api/guests/:guests_id (for updating whether a guest is going or not) // takes "going" property in the body 
-
+# [Put] /api/guests/:guests_id (for updating whether a guest is going or not) 

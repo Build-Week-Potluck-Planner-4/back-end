@@ -17,8 +17,10 @@ const getPotluck = async potluck_id => {
         .leftJoin("users as u", "u.user_id", "g.user_id")
         .leftJoin("potluck_foods as pf", "pf.potluck_food_id", "g.potluck_food_id")
         .leftJoin("foods as f", "f.food_id", "pf.food_id")
-        .select("u.username", "f.food_name", "g.accepted", "g.guest_id")
-        .where("g.potluck_id", potluck_id)
+        .select(
+            "u.username", "f.food_name", 
+            "g.accepted", "g.guest_id", "pf.potluck_food_id"
+        ).where("g.potluck_id", potluck_id)
 
     if (res[0]) {
         return {
@@ -27,7 +29,10 @@ const getPotluck = async potluck_id => {
             date: res[0].date,
             time: res[0].time,
             location: res[0].location,
-            foods: res.map(p => p.food_name),
+            foods: res.map(p => ({
+                food_name: p.food_name,
+                potluck_food_id: p.potluck_food_id,
+            })),
             guests: guests.map(g => ({ 
                 ...g, 
                 accepted: g.accepted ? true : false 
