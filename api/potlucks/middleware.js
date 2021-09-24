@@ -39,8 +39,8 @@ const verifyPotluckPayload = (req, res, next) => {
                 date,
                 user_id: req.token.subject
             }
-            req.foods = foods
-            req.guests = guests
+            if (foods) req.foods = foods
+            if (guests) req.guests = guests
             next()
         }).catch(next)
 }
